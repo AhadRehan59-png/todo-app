@@ -20,27 +20,34 @@ A simple Todo application built with Node.js, Express, EJS, MongoDB, and user au
 - bcrypt
 - express-session
 - connect-flash
+- node
 
 ## Installation
 
 1. Clone or copy the project folder
-2. Install dependencies
+2. Change into the backend folder
+
+```bash
+cd backend
+```
+
+3. Install backend dependencies
 
 ```bash
 npm install
 ```
 
-3. Create a `.env` file in the project root with:
+4. Create a `.env` file in the project root with:
 
 ```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/todo-app
 ```
 
-4. Start the server
+5. Start the backend server
 
 ```bash
-node app.js
+npm start
 ```
 
 ## Usage
@@ -51,13 +58,16 @@ node app.js
 
 ## Project Structure
 
-- `app.js` - main Express application
-- `config/db.js` - MongoDB connection
-- `models/` - Mongoose models for `User` and `Task`
-- `routes/` - authentication and task routes
-- `middlewares/` - route guards like `isLoggedIn`
-- `views/` - EJS templates for pages
-- `public/` - static assets
+- `backend/` - server application and Node.js backend code
+  - `backend/app.js` - main Express application
+  - `backend/config/db.js` - MongoDB connection
+  - `backend/models/` - Mongoose models for `User` and `Task`
+  - `backend/routes/` - authentication and task routes
+  - `backend/middlewares/` - route guards like `isLoggedIn`
+  - `backend/utils/` - helper utilities
+- `frontend/` - frontend assets and views
+  - `frontend/views/` - EJS templates for pages
+  - `frontend/public/` - static assets like CSS and HTML
 
 ## Notes
 
