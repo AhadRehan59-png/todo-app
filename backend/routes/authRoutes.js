@@ -4,6 +4,11 @@ const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 const generateToken = require("../utils/generateToken");
 
+// 🔹 HOME REDIRECT
+router.get("/", (req, res) => {
+  res.redirect("/login");
+});
+
 // 🔹 SIGNUP PAGE
 router.get("/signup", (req, res) => {
   res.render("signup");
