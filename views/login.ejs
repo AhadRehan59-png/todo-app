@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+<!-- ICONS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-family: Arial;
+  margin: 0;
+}
+
+/* CENTER */
+.center-box {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* CARD */
+.card-box {
+  width: 100%;
+  max-width: 380px;
+  padding: 30px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  color: white;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* INPUT */
+.form-control {
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 6px #00ffcc;
+}
+
+/* PASSWORD FIELD */
+.password-box {
+  position: relative;
+}
+
+.password-box i {
+  position: absolute;
+  right: 12px;
+  top: 38px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* BUTTON */
+.btn-custom {
+  background: linear-gradient(45deg, #00ffcc, #00b3ff);
+  border: none;
+  color: black;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn-custom:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #00ffcc;
+}
+
+/* LINK */
+a {
+  color: #00ffcc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 📱 MOBILE FIX */
+@media (max-width: 480px){
+
+  .card-box {
+    padding: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  .form-control {
+    font-size: 13px;
+  }
+
+  .btn-custom {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="center-box">
+
+  <div class="card-box">
+
+    <h3 class="text-center mb-3">🔐 Login</h3>
+
+    <form action="/login" method="POST">
+
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" class="form-control" required>
+      </div>
+
+      <!-- PASSWORD WITH EYE -->
+      <div class="password-box">
+        <label>Password</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+        <i class="bi bi-eye-slash" onclick="togglePassword()"></i>
+      </div>
+
+      <button class="btn-custom w-100 mt-3">Login 🚀</button>
+
+    </form>
+
+    <p class="text-center mt-3">
+      Don't have account? <a href="/signup">Signup</a>
+    </p>
+
+  </div>
+
+</div>
+
+<script>
+function togglePassword() {
+  const input = document.getElementById("password");
+  const icon = document.querySelector(".password-box i");
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.replace("bi-eye-slash", "bi-eye");
+  } else {
+    input.type = "password";
+    icon.classList.replace("bi-eye", "bi-eye-slash");
+  }
+}
+</script>
+
+</body>
+</html>

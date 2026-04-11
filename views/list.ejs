@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Task Manager</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+  padding: 14px 20px;
+}
+
+.brand { color: #fff; font-weight: bold; text-decoration: none; }
+.nav-link-custom { color: #fff !important; margin-left: 20px; }
+
+.page-wrap { flex: 1; padding: 100px 20px 80px; }
+
+.glass {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 15px;
+  padding: 20px;
+  color: white;
+}
+
+.table-responsive { overflow-x: auto; }
+table { min-width: 700px; }
+
+th { background: #333 !important; color: white; }
+td { background: white; }
+
+.status-pending { color: orange; font-weight: bold; }
+.status-completed { color: #00c853; font-weight: bold; }
+
+.priority-high { color: red; font-weight: bold; }
+.priority-medium { color: orange; font-weight: bold; }
+.priority-low { color: green; font-weight: bold; }
+
+.btn-3d {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  margin: 2px;
+}
+
+.btn-green { background: #43e97b; }
+.btn-red { background: #fa709a; }
+.btn-orange { background: #f7971e; }
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="topbar d-flex justify-content-between">
+  <a href="/tasks" class="brand">🚀 To Do App</a>
+  <div>
+    <a href="/tasks" class="nav-link-custom">List</a>
+    <a href="/tasks/add" class="nav-link-custom">Add</a>
+    <a href="/logout" class="nav-link-custom">Logout</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+<h2 class="text-center text-white mb-3">📋 Task Manager</h2>
+
+<div class="glass">
+
+<!-- FLASH -->
+<% if (message && message.length > 0) { %>
+  <div class="alert alert-success"><%= message %></div>
+<% } %>
+
+<% if (error && error.length > 0) { %>
+  <div class="alert alert-danger"><%= error %></div>
+<% } %>
+
+<!-- FILTER + SORT -->
+<form method="GET" action="/tasks" class="mb-3 row g-2">
+
+  <div class="col-md-3">
+    <input type="text" name="search" value="<%= search %>" placeholder="Search..." class="form-control"/>
+  </div>
+
+  <div class="col-md-2">
+    <select name="status" class="form-select">
+      <option value="all">All</option>
+      <option value="pending" <%= status==='pending'?'selected':'' %>>Pending</option>
+      <option value="completed" <%= status==='completed'?'selected':'' %>>Completed</option>
+    </select>
+  </div>
+
+  <div class="col-md-2">
+    <select name="priority" class="form-select">
+      <option value="all">All Priority</option>
+      <option value="low" <%= priority==='low'?'selected':'' %>>Low</option>
+      <option value="medium" <%= priority==='medium'?'selected':'' %>>Medium</option>
+      <option value="high" <%= priority==='high'?'selected':'' %>>High</option>
+    </select>
+  </div>
+
+  <!-- 🔥 SORT UPDATED -->
+  <div class="col-md-3">
+    <select name="sort" class="form-select">
+      <option value="latest" <%= sort==='latest'?'selected':'' %>>Latest</option>
+      <option value="oldest" <%= sort==='oldest'?'selected':'' %>>Oldest</option>
+      <option value="completed" <%= sort==='completed'?'selected':'' %>>Completed First</option>
+      <option value="priority" <%= sort==='priority'?'selected':'' %>>High Priority</option>
+      <option value="az" <%= sort==='az'?'selected':'' %>>A → Z</option>
+      <option value="za" <%= sort==='za'?'selected':'' %>>Z → A</option>
+    </select>
+  </div>
+
+  <div class="col-md-2">
+    <button class="btn btn-dark w-100">Apply</button>
+  </div>
+
+</form>
+
+<!-- TABLE -->
+<form method="POST" action="/tasks/delete-multiple">
+
+<button class="btn btn-danger mb-2">Delete Selected</button>
+
+<div class="table-responsive">
+<table class="table table-bordered">
+
+<thead>
+<tr>
+<th><input type="checkbox" id="selectAll"></th>
+<th>#</th>
+<th>Title</th>
+<th>Description</th>
+<th>Status</th>
+<th>Priority</th>
+<th>Due Date</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+<% tasks.forEach((task, index) => { %>
+<tr>
+
+<td><input type="checkbox" name="taskIds" value="<%= task._id %>"></td>
+
+<td><%= (currentPage - 1) * 5 + index + 1 %></td>
+
+<td><%= task.title %></td>
+<td><%= task.description %></td>
+
+<td>
+<span class="<%= task.status==='completed'?'status-completed':'status-pending' %>">
+<%= task.status %>
+</span>
+</td>
+
+<td>
+<span class="priority-<%= task.priority %>">
+<%= task.priority %>
+</span>
+</td>
+
+<td>
+<%= task.dueDate ? new Date(task.dueDate).toDateString() : 'No Date' %>
+</td>
+
+<td>
+<a href="/tasks/toggle/<%= task._id %>" class="btn-3d btn-green">Toggle</a>
+<a href="/tasks/edit/<%= task._id %>" class="btn-3d btn-orange">Edit</a>
+
+<button type="button" class="btn-3d btn-red" onclick="openDelete('<%= task._id %>')">
+  Delete
+</button>
+</td>
+
+</tr>
+<% }) %>
+</tbody>
+
+</table>
+</div>
+
+</form>
+
+<!-- 🔥 PAGINATION -->
+<div class="d-flex justify-content-center mt-3">
+
+  <% if (currentPage > 1) { %>
+    <a class="btn btn-light me-2"
+      href="?page=<%= currentPage - 1 %>&search=<%= search %>&status=<%= status %>&priority=<%= priority %>&sort=<%= sort %>">
+      Prev
+    </a>
+  <% } %>
+
+  <span class="text-white mt-2">
+    Page <%= currentPage %> of <%= totalPages %>
+  </span>
+
+  <% if (currentPage < totalPages) { %>
+    <a class="btn btn-light ms-2"
+      href="?page=<%= currentPage + 1 %>&search=<%= search %>&status=<%= status %>&priority=<%= priority %>&sort=<%= sort %>">
+      Next
+    </a>
+  <% } %>
+
+</div>
+
+</div>
+</div>
+
+<footer class="footer">
+  © 2026 Task Manager | Ahad Rehan
+</footer>
+
+<!-- DELETE MODAL -->
+<div class="modal fade" id="deleteModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <h4 class="text-danger">⚠ Delete Task</h4>
+      <p>Are you sure?</p>
+
+      <div class="d-flex justify-content-center gap-3 mt-3">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a id="confirmDelete" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+document.getElementById("selectAll").addEventListener("click", function () {
+  document.querySelectorAll("input[name='taskIds']")
+    .forEach(cb => cb.checked = this.checked);
+});
+
+function openDelete(id){
+  document.getElementById("confirmDelete").href = "/tasks/delete/" + id;
+  new bootstrap.Modal(document.getElementById("deleteModal")).show();
+}
+</script>
+
+</body>
+</html>
