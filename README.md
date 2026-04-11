@@ -25,26 +25,21 @@ A simple Todo application built with Node.js, Express, EJS, MongoDB, and user au
 ## Installation
 
 1. Clone or copy the project folder
-2. Change into the backend folder
-
-```bash
-cd backend
-```
-
-3. Install backend dependencies
+2. Install dependencies from the project root
 
 ```bash
 npm install
 ```
 
-4. Create a `.env` file in the project root with:
+3. Create a `.env` file in the project root with:
 
 ```env
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/todo-app
+MONGODB_URI=mongodb://localhost:27017/todoapp
+JWT_KEY=mysecretkey
 ```
 
-5. Start the backend server
+4. Start the application
 
 ```bash
 npm start
