@@ -1,135 +1,35 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
-  background: #f3f3f3;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
-.navbar {
+.topbar {
+  position: fixed;
+  top: 0;
   width: 100%;
-  background: #1f1f1f;
+  background: rgba(0,0,0,0.7);
+  padding: 14px 20px;
+}
+
+.brand { color: #fff; text-decoration: none; }
+.nav-link-custom { color: #fff !important; margin-left: 20px; }
+
+.page-wrap { padding: 100px 20px; }
+
+.glass {
+  background: rgba(255,255,255,0.15);
+  padding: 20px;
+  border-radius: 15px;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px;
 }
 
-.logo {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.nav-links {
-  display: flex;
-  gap: 20px;
-}
-
-.nav-links a {
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: black;
   color: white;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.center-box {
-  width: 100%;
-  min-height: calc(100vh - 58px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card {
-  width: 100%;
-  max-width: 430px;
-  background: #fff;
-  padding: 35px 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
-}
-
-.card h1 {
   text-align: center;
-  margin-bottom: 25px;
-  font-size: 24px;
-}
-
-form label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-  margin-top: 15px;
-  color: #444;
-}
-
-form input,
-form textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #cfcfcf;
-  border-radius: 5px;
-  outline: none;
-  font-size: 14px;
-}
-
-.blue-btn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  border: none;
-  background: #0d6efd;
-  color: white;
-  font-size: 15px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.bottom-link {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #4a4a8a;
-  font-weight: 600;
-}
-
-.page {
-  width: 95%;
-  margin: 30px auto;
-}
-
-.page-title {
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 26px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-}
-
-table th,
-table td {
-  border: 1px solid #ddd;
-  padding: 14px;
-  text-align: left;
-}
-
-table th {
-  background: #efefef;
-}
-
-.delete-btn {
-  display: inline-block;
-  background: orangered;
-  color: white;
-  padding: 8px 14px;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 10px;
 }
