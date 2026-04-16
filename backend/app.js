@@ -37,6 +37,6 @@ app.set("views", path.join(__dirname, "../frontend/views"));
 app.use("/", authRoutes);
 app.use("/", taskRoutes);
 // 🔹 SERVER
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+app.listen(3000, () => {
+  console.log(`Server running on port`);
 });
